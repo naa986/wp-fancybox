@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP fancyBox
-Version: 1.0.1
+Version: 1.0.2
 Plugin URI: https://noorsplugin.com/wordpress-fancybox-plugin/
 Author: naa986
 Author URI: http://noorsplugin.com/
@@ -15,7 +15,7 @@ if(!class_exists('WP_FANCYBOX'))
 {
     class WP_FANCYBOX
     {
-        var $plugin_version = '1.0.1';
+        var $plugin_version = '1.0.2';
         var $plugin_url;
         var $plugin_path;
         function __construct()
@@ -24,7 +24,7 @@ if(!class_exists('WP_FANCYBOX'))
             define('WP_FANCYBOX_SITE_URL',site_url());
             define('WP_FANCYBOX_URL', $this->plugin_url());
             define('WP_FANCYBOX_PATH', $this->plugin_path());
-            define('WP_FANCYBOX_LIBRARY_VERSION', '3.0.47');
+            define('WP_FANCYBOX_LIBRARY_VERSION', '3.5.7');
             $this->plugin_includes();
             add_action( 'wp_enqueue_scripts', array( &$this, 'plugin_scripts' ), 0 );
         }
@@ -99,7 +99,7 @@ if(!class_exists('WP_FANCYBOX'))
 
 function wp_fancybox_media_handler($atts)
 {
-    extract(shortcode_atts(array(
+    $atts = shortcode_atts(array(
         'url' => '',
         'width' => '640',
         'height' => '360',
@@ -108,7 +108,9 @@ function wp_fancybox_media_handler($atts)
         'hyperlink' => 'Click Here',
         'alt' => '',
         'class' => '',
-    ), $atts));
+    ), $atts);
+    $atts = array_map('sanitize_text_field', $atts);
+    extract($atts);
     if(empty($url)){
         return __('Please specify the URL of your media file that you wish to pop up in lightbox', 'wp-fancybox');
     }
