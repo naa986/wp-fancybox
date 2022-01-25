@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP fancyBox
-Version: 1.0.2
+Version: 1.0.3
 Plugin URI: https://noorsplugin.com/wordpress-fancybox-plugin/
 Author: naa986
 Author URI: http://noorsplugin.com/
@@ -15,7 +15,7 @@ if(!class_exists('WP_FANCYBOX'))
 {
     class WP_FANCYBOX
     {
-        var $plugin_version = '1.0.2';
+        var $plugin_version = '1.0.3';
         var $plugin_url;
         var $plugin_path;
         function __construct()
@@ -46,10 +46,10 @@ if(!class_exists('WP_FANCYBOX'))
         {
             if (!is_admin()) 
             {                
-                wp_register_style('fancybox', WP_FANCYBOX_URL.'/dist/jquery.fancybox.min.css');
+                wp_register_style('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css');
                 wp_enqueue_style('fancybox');
                 wp_enqueue_script('jquery');
-                wp_register_script('fancybox', WP_FANCYBOX_URL.'/dist/jquery.fancybox.min.js', array('jquery'), WP_FANCYBOX_VERSION);
+                wp_register_script('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js', array('jquery'), WP_FANCYBOX_VERSION);
                 wp_enqueue_script('fancybox');
             }
         }
@@ -101,10 +101,7 @@ function wp_fancybox_media_handler($atts)
 {
     $atts = shortcode_atts(array(
         'url' => '',
-        'width' => '640',
-        'height' => '360',
         'caption' => '',
-        'type' => '',
         'hyperlink' => 'Click Here',
         'alt' => '',
         'class' => '',
@@ -114,92 +111,24 @@ function wp_fancybox_media_handler($atts)
     if(empty($url)){
         return __('Please specify the URL of your media file that you wish to pop up in lightbox', 'wp-fancybox');
     }
-    if(empty($type)){
-        return __('Please specify the type of media file you wish to pop up in lightbox', 'wp-fancybox');
-    }
     if (strpos($hyperlink, 'http') !== false)
     {
         if(isset($alt) && !empty($alt)){
-            $alt = ' alt="'.$alt.'"';
+            $alt = ' alt="'.esc_attr($alt).'"';
         }
-        $hyperlink = '<img src="'.$hyperlink.'"'.$alt.'>';
+        $hyperlink = '<img src="'.esc_url($hyperlink).'"'.$alt.'>';
     }
-    /* only works on images
-    if(!empty($width)){
-        $width = ' data-width="'.$width.'"';
+    else{
+        $hyperlink = esc_html($hyperlink);
     }
-    //
-    if(!empty($height)){
-        $height = ' data-height="'.$height.'"';
-    }
-    */
-    $datasrc = '';
-    if($type=="inline"){
-        $datasrc = ' data-src="'.$url.'"';
-        $url = "javascript:;";
-    }
-    //
     if(!empty($class)){
-        $class = ' class="'.$class.'"';
+        $class = ' class="'.esc_attr($class).'"';
     }
-    //
     if(!empty($caption)){
-        $caption = ' data-caption="'.$caption.'"';
+        $caption = ' data-caption="'.esc_attr($caption).'"';
     }
-    //
     $data_fancybox = ' data-fancybox';
-    //
-    $video_output = '';
-    if($type=="youtube" || $type=="vimeo"){
-        $id = uniqid();
-        $data_fancybox = ' data-fancybox="'.$type.$id.'"';
-        $content = '$content';
-        $aspect_ratio = $height/$width;
-        $video_output = <<<EOT
-        <script>
-        /* <![CDATA[ */
-            jQuery(document).ready(function($){
-                $(function(){
-                    $('[data-fancybox="{$type}{$id}"]').fancybox({
-                            afterLoad : function( instance, current ) {
-                                // Remove scrollbars and change background
-                               current.$content.css({
-                               width   : '$width',
-                               height  : '$height',
-                               overflow: 'visible',
-                               background : '#000'
-                            });
-                        },
-                        onUpdate : function( instance, current ) {
-                            var width = $(window).innerWidth(),
-                                height = $height,
-                                setwidth = $width,
-                                ratio = $aspect_ratio,
-                                video = current.$content;
-                                
-                            if ( video && width < setwidth) {
-                              video.hide();
-                              height = Math.floor(width * $aspect_ratio);
-                              //console.log("width: "+width+", height:"+height);
-
-                              video.css({
-                                width  : width,
-                                height : height
-                              }).show();
-
-                            }
-                        }
-                    })
-                });
-            });
-            /* ]]> */    
-        </script>                 
-EOT;
-        
-    }
-    $output = <<<EOT
-    <a href="$url"{$class}{$data_fancybox}{$datasrc}{$caption}>$hyperlink</a>
-    $video_output        
-EOT;
+    $output = 
+    '<a href="'.esc_url($url).'"'.$class.$data_fancybox.$caption.'>'.$hyperlink.'</a>';
     return $output;
 }
