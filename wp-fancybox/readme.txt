@@ -1,9 +1,9 @@
-=== WordPress fancybox ===
+=== WP fancybox ===
 Contributors: naa986
 Donate link: https://noorsplugin.com/
 Tags: fancybox, gallery, image, photo, lightbox
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.4
 Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,21 +12,17 @@ View image, YouTube video, Vimeo video, inline HTML in lightbox. Add fancybox li
 
 == Description ==
 
-[WordPress fancybox](https://noorsplugin.com/wordpress-fancybox-plugin/) plugin adds fancybox lightbox effect to your WordPress website. The lightbox looks great on desktop as well as mobile devices.
+[WP fancybox](https://noorsplugin.com/wordpress-fancybox-plugin/) plugin adds fancybox lightbox effect to your WordPress website. The lightbox looks great on desktop as well as mobile devices.
 
 === WP fancybox Features ===
 
 * Responsive lightbox popup using fancybox
 * Designed with a mobile first approach so it looks great on desktop, mobile and tablet devices
 * Quick and easy setup
-* Support for common touch gestures such as double-tap, pinch-in and pinch-out (for image viewing), horizontal swipe for navigation etc
-* Open lightbox popup from either a text link or a thumbnal image link
-* Compatible with WordPress multisite
-* Automatically recognize popular video sites such as YouTube, Vimeo for easy viewing in lightbox
-* Support hardware accelerated animations for better performance
-* Use a simple shortcode anywhere on your site (Post, Page, Homepage etc.)to pop up content in lightbox
-* Graphics, including loading icons, are created with CSS to keep it lightweight
-* Customize the visuals and layout using CSS
+* Open lightbox popup from either a text link or a thumbnail image link
+* YouTube video popup
+* Vimeo video popup
+* Use a simple shortcode to pop up content in lightbox
 
 === How to Use WP fancybox ===
 
@@ -66,7 +62,7 @@ Multiple CSS classes can be separated with a space. For example:
 
 `[wp_fancybox_media url="https://www.youtube.com/watch?v=Vpg9yizPP_g" hyperlink="click here to pop up youtube video" class="custom_class custom_class2"]`
 
-For detailed documentation please visit the [WP fancybox](https://noorsplugin.com/wordpress-fancybox-plugin/) plugin page
+For detailed documentation please visit the [WordPress fancybox](https://noorsplugin.com/wordpress-fancybox-plugin/) plugin page
 
 == Installation ==
 
