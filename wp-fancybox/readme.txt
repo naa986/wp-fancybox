@@ -3,7 +3,7 @@ Contributors: naa986
 Donate link: https://noorsplugin.com/
 Tags: fancybox, gallery, image, photo, lightbox
 Requires at least: 4.7
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
