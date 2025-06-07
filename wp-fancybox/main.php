@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP fancyBox
-Version: 1.0.3
+Version: 1.0.4
 Plugin URI: https://noorsplugin.com/wordpress-fancybox-plugin/
 Author: naa986
 Author URI: http://noorsplugin.com/
@@ -15,7 +15,7 @@ if(!class_exists('WP_FANCYBOX'))
 {
     class WP_FANCYBOX
     {
-        var $plugin_version = '1.0.3';
+        var $plugin_version = '1.0.4';
         var $plugin_url;
         var $plugin_path;
         function __construct()
@@ -24,9 +24,10 @@ if(!class_exists('WP_FANCYBOX'))
             define('WP_FANCYBOX_SITE_URL',site_url());
             define('WP_FANCYBOX_URL', $this->plugin_url());
             define('WP_FANCYBOX_PATH', $this->plugin_path());
-            define('WP_FANCYBOX_LIBRARY_VERSION', '3.5.7');
+            define('WP_FANCYBOX_LIBRARY_VERSION', '5.0.36');
             $this->plugin_includes();
-            add_action( 'wp_enqueue_scripts', array( &$this, 'plugin_scripts' ), 0 );
+            add_action('wp_enqueue_scripts', array($this, 'plugin_scripts'));
+            add_action('wp_footer', array($this, 'wp_footer_handler'));
         }
         function plugin_includes()
         {
@@ -45,21 +46,38 @@ if(!class_exists('WP_FANCYBOX'))
         function plugin_scripts()
         {
             if (!is_admin()) 
-            {                
-                wp_register_style('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css');
+            {
+                wp_register_style('fancybox', WP_FANCYBOX_URL.'/dist/fancybox/fancybox.css');
                 wp_enqueue_style('fancybox');
                 wp_enqueue_script('jquery');
-                wp_register_script('fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js', array('jquery'), WP_FANCYBOX_VERSION);
+                wp_register_script('fancybox', WP_FANCYBOX_URL.'/dist/fancybox/fancybox.js', array('jquery'), WP_FANCYBOX_VERSION);
                 wp_enqueue_script('fancybox');
             }
         }
+        function wp_footer_handler()
+        {
+            $output = <<<EOT
+            <script>
+            jQuery(document).ready(function($) {
+                Fancybox.bind("[data-fancybox]", {
+                    // Your custom options
+                });
+            });       
+            </script>
+EOT;
+            echo $output;
+        }
         function plugin_url()
         {
-            if($this->plugin_url) return $this->plugin_url;
+            if($this->plugin_url){
+                return $this->plugin_url;
+            }
             return $this->plugin_url = plugins_url( basename( plugin_dir_path(__FILE__) ), basename( __FILE__ ) );
         }
         function plugin_path(){ 	
-            if ( $this->plugin_path ) return $this->plugin_path;		
+            if($this->plugin_path){
+                return $this->plugin_path;	
+            }
             return $this->plugin_path = untrailingslashit( plugin_dir_path( __FILE__ ) );
         }
         function add_plugin_action_links($links, $file)
@@ -101,7 +119,6 @@ function wp_fancybox_media_handler($atts)
 {
     $atts = shortcode_atts(array(
         'url' => '',
-        'caption' => '',
         'hyperlink' => 'Click Here',
         'alt' => '',
         'class' => '',
@@ -124,11 +141,8 @@ function wp_fancybox_media_handler($atts)
     if(!empty($class)){
         $class = ' class="'.esc_attr($class).'"';
     }
-    if(!empty($caption)){
-        $caption = ' data-caption="'.esc_attr($caption).'"';
-    }
     $data_fancybox = ' data-fancybox';
     $output = 
-    '<a href="'.esc_url($url).'"'.$class.$data_fancybox.$caption.'>'.$hyperlink.'</a>';
+    '<a href="'.esc_url($url).'"'.$class.$data_fancybox.'>'.$hyperlink.'</a>';
     return $output;
 }

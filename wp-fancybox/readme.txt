@@ -3,8 +3,8 @@ Contributors: naa986
 Donate link: https://noorsplugin.com/
 Tags: fancybox, gallery, image, photo, lightbox
 Requires at least: 4.7
-Tested up to: 6.7
-Stable tag: 1.0.3
+Tested up to: 6.8
+Stable tag: 1.0.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -44,13 +44,9 @@ here, url is the link to the media file that you wish to open in lightbox and hy
 
 `[wp_fancybox_media url="https://vimeo.com/1084537" hyperlink="click here to pop up vimeo video"]`
 
-**Caption in lightbox**
-
-`[wp_fancybox_media url="https://example.com/wp-content/uploads/images/overlay.jpg" caption="overlay image" hyperlink="click here to pop up image"]`
-
 **Alternate Text for an Image**
 
-`[wp_fancybox_media url="https://example.com/wp-content/uploads/images/overlay.jpg" caption="overlay image" hyperlink="https://example.com/wp-content/uploads/images/thumb.jpg" alt="Thumbnail image description"]`
+`[wp_fancybox_media url="https://example.com/wp-content/uploads/images/overlay.jpg" hyperlink="https://example.com/wp-content/uploads/images/thumb.jpg" alt="Thumbnail image description"]`
 
 **Custom CSS**
 
@@ -95,6 +91,9 @@ Yes.
 none
 
 == Changelog ==
+
+= 1.0.4 =
+* Updated to fancybox 5.0.36.
 
 = 1.0.3 =
 * Updated to fancybox 4.
